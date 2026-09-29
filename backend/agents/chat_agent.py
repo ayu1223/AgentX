@@ -3,7 +3,8 @@ from llm.gemini import get_gemini_model
 from memory.conversation_memory import ConversationMemory
 
 class ChatAgent(BaseAgent):
-    def __init__(self):
+    def __init__(self,config):
+        self.config = config
         self.llm = get_gemini_model()
         self.memory = ConversationMemory()
 

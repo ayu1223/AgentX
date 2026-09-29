@@ -6,11 +6,11 @@ class AgentType(str,Enum):
     RAG = "rag"
     TOOL = "tool"
 
-class AgenConfig(BaseModel):
+class AgentConfig(BaseModel):
     name: str
     description: str
-    agetn_type: AgentType
+    agent_type: AgentType
     memory: bool=True
     tools: list[str]=[]
     documents_required: bool=False
-    
+
