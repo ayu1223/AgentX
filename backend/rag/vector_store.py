@@ -6,7 +6,7 @@ def create_vector_store(document):
     embeddings = get_embeddings()
 
     return FAISS.from_documents(
-        documents,
+        document,
         embeddings
     )
 
@@ -14,7 +14,7 @@ def save_vectore_store(vector_store,path:str):
     vector_store.save_local(path)
 
 def load_vector_store( path:str):
-    embeddings=get_embeddings
+    embeddings=get_embeddings()
     return FAISS.load_local(
         path,
         embeddings,

@@ -16,10 +16,25 @@ class ToolAgent(BaseAgent):
         prompt = f"""
 You are a tool-using assistant.
 Available tools:
--calculator: for mathematical calculatoins
--web_search: for information that requires web search
+1. calculator: for mathematical calculatoins
+2. web_search: for information that requires web search
 User request:
 {message}
-Decide Whether a tool is needed."""
-        response =self.llm.invoke(prompt)
+Return exactly one of these formats;
+TOOL:calculator:<expression>
+TOOL:web_search:<search query>
+TOOL:none
+Don not return anything else."""
+        decision = self.llm.invoke(prompt).text.strip()
+        if decision.startswith("TOOL:calculator:"):
+            expression = decision[len("TOOL:calculator:"):].strip()
+            result = calculator.invoke(expression)
+            return str(result)
+
+        if decision.startswith("TOOL:web_search:"):
+            query = decision[len("TOOL:web_search:"):].strip()
+            result = web_search.invoke(query)
+            return(str(result))
+        
+        response =self.llm.invoke(message)
         return response.text
