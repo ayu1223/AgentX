@@ -50,7 +50,7 @@ function AgentCreator({ onAgentCreated }) {
     <form onSubmit={handleSubmit}>
 
       <div>
-        <label>Agent Name</label>
+        <label style={{color:"red"}}>Agent Name</label>
 
         <input
           type="text"
@@ -80,6 +80,7 @@ function AgentCreator({ onAgentCreated }) {
 
       <button
         type="submit"
+        
         disabled={loading}
       >
         {loading ? "Creating..." : "Create Agent"}

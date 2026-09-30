@@ -7,4 +7,5 @@ def get_gemini_model():
         model = "gemini-3.6-flash",
         google_api_key = settings.GOOGLE_API_KEY,
         temperature = 0.2,
+        max_retries = 3
     )

@@ -6,7 +6,7 @@ function Navbar({ onHome }) {
         justifyContent: "space-between",
         alignItems: "center",
         padding: "16px 32px",
-        borderBottom: "1px solid #1e293b",
+        borderBottom: "1px solid #e88a25",
         background: "#020617"
       }}
     >

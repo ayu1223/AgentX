@@ -14,6 +14,12 @@ def create_agent(request: AgentCreateRequest ):
         name= request.name
     )
 
+    if config.agent_type.value=="rag":
+        return AgentCreateResponse(
+            name = config.name,
+            description = config.description,
+            agent_type = config.agent_type.value
+        )
     AgentFactory.create_agent(config)
 
     return AgentCreateResponse(

@@ -28,5 +28,12 @@ def classify_task(task:str)->AgentType:
                 "online"
             ]):
         return AgentType.TOOL
-    return AgentType.CHAT
+    if any (word in task_lower
+            for word in [
+                "casual",
+                "friend",
+                "normal talk",
+                "chat"
+            ]):
+        return AgentType.CHAT
 

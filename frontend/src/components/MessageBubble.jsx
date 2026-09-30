@@ -1,3 +1,10 @@
+import ReactMarkdown from "react-markdown";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+
+import "katex/dist/katex.min.css";
+
+
 function MessageBubble({ message }) {
 
   const isUser = message.role === "user";
@@ -11,15 +18,25 @@ function MessageBubble({ message }) {
     >
       <div
         style={{
-          maxWidth: "75%",
-          padding: "12px 16px",
-          borderRadius: "12px",
-          background: isUser ? "#2563eb" : "#1e293b",
-          color: "#f8fafc",
-          whiteSpace: "pre-wrap"
+          maxWidth: "80%",
+          padding: "14px 18px",
+          borderRadius: "14px",
+          background: isUser ? "#232629" : "#232629",
+          color: "#f7f8f9",
+          lineHeight: "1.6",
+          overflowX: "auto"
         }}
       >
-        {message.content}
+        {isUser ? (
+          message.content
+        ) : (
+          <ReactMarkdown
+            remarkPlugins={[remarkMath]}
+            rehypePlugins={[rehypeKatex]}
+          >
+            {message.content}
+          </ReactMarkdown>
+        )}
       </div>
     </div>
   );

@@ -21,10 +21,30 @@ chat_config = AgentConfig(
 )
 chat_agent = ChatAgent(chat_config)
 
-@router.post("/chat",response_model = ChatResponse)
+active_chat_agent = None
 
-def chat(request:ChatRequest):
-    response = chat_agent.run(request.message)
+
+@router.post("/chat", response_model=ChatResponse)
+def chat(request: ChatRequest):
+
+    global active_chat_agent
+
+    if (
+        active_chat_agent is None
+        or active_chat_agent.config.name != request.agent_name
+        or active_chat_agent.config.description != request.agent_description
+    ):
+
+        config = AgentConfig(
+            name=request.agent_name,
+            description=request.agent_description,
+            agent_type=AgentType.CHAT
+        )
+
+        active_chat_agent = ChatAgent(config)
+
+    response = active_chat_agent.run(request.message)
+
     return ChatResponse(response=response)
 
 @router.post("/rag/chat",response_model=ChatResponse)
@@ -57,7 +77,7 @@ tool_config = AgentConfig(
 )
 tool_agent = ToolAgent(tool_config)
 
-@router.post("/tool/caht",response_model=ChatResponse)
+@router.post("/tool/chat",response_model=ChatResponse)
 def tool_chat(request: ChatRequest):
     response = tool_agent.run(request.message)
     return ChatResponse(response=response)

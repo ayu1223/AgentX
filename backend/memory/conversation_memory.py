@@ -7,7 +7,7 @@ class ConversationMemory:
         self.messages.append(HumanMessage(content=message))
     def add_ai_message(self,message:str):
         self.messages.append(AIMessage(content=message))
-    def getmessage(self):
+    def get_messages(self):
         return self.messages
     def clear(self):
         self.messages.clear()
