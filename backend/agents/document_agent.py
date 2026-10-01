@@ -13,10 +13,12 @@ class DocumentAgent(BaseAgent):
 
     def run(self, message: str) -> str:
 
-        # -----------------------------
-        # 1. Get relevant document data
-        # -----------------------------
+        print("================================")
+        print("DOCUMENT AGENT RECEIVED:")
+        print(repr(message))
+        print("================================")
 
+        # Get relevant document data
         documents = self.retriever.invoke(message)
 
         document_context = "\n\n".join(
@@ -24,33 +26,25 @@ class DocumentAgent(BaseAgent):
             for document in documents
         )
 
-        # -----------------------------
-        # 2. Detect explicit web search
-        # -----------------------------
-
+        # Detect web request
         message_lower = message.lower()
 
-        web_requested = any(
-            phrase in message_lower
-            for phrase in [
-                "web search",
-                "search the web",
-                "search online",
-                "search the internet",
-                "search internet",
-                "look up online",
-                "find online",
-                "use web",
-                "use the web",
-                "more insights"
-            ]
+        web_requested = (
+            "web" in message_lower
+            or "online" in message_lower
+            or "internet" in message_lower
+            or (
+                "search" in message_lower
+                and (
+                    "search" in message_lower
+                    or "look up" in message_lower
+                )
+            )
         )
 
-        web_context = ""
+        print("WEB REQUESTED:", web_requested)
 
-        # -----------------------------
-        # 3. Perform web search
-        # -----------------------------
+        web_context = ""
 
         if web_requested:
 
@@ -59,24 +53,25 @@ class DocumentAgent(BaseAgent):
             try:
                 web_result = web_search.invoke(message)
 
+                print("WEB SEARCH RESULT RECEIVED")
+
                 web_context = f"""
-WEB SEARCH RESULTS:
-{web_result}
-"""
+    WEB SEARCH RESULTS:
+    {web_result}
+    """
 
             except Exception as e:
 
-                print("WEB SEARCH ERROR:", e)
+                print("WEB SEARCH ERROR:", repr(e))
 
                 web_context = f"""
-WEB SEARCH FAILED:
-{str(e)}
-"""
+    WEB SEARCH FAILED:
+    {str(e)}
+    """
 
         else:
 
             print("NO WEB SEARCH")
-
         # -----------------------------
         # 4. Build final prompt
         # -----------------------------

@@ -1,55 +1,102 @@
 import Navbar from "../components/Navbar";
-
+import CatIcon from "../components/CatIcon";
 
 function Home({ onCreateAgent }) {
-
   return (
-    <div>
-
+    <div className="app-shell">
       <Navbar />
 
-      <main
-        style={{
-          maxWidth: "900px",
-          margin: "0 auto",
-          padding: "80px 24px",
-          textAlign: "center"
-        }}
-      >
+      <main className="home-page">
+        <section className="hero-card">
+          <div className="hero-glow hero-glow-one" />
+          <div className="hero-glow hero-glow-two" />
 
-        <h1>
-          Build Your Own AI Agent
-        </h1>
+          <div className="hero-icon">
+            <CatIcon size={62} />
+          </div>
 
-        <p
-          style={{
-            color: "#94a3b8",
-            fontSize: "18px",
-            margin: "20px auto 32px",
-            maxWidth: "650px"
-          }}
-        >
-          Describe what you want your AI agent to do.
-          The Agent Factory will configure the right type
-          of agent for your task.
-        </p>
+          <span className="eyebrow">
+            YOUR PERSONAL AI WORKSPACE
+          </span>
 
-        <button
-          onClick={onCreateAgent}
-          style={{
-            padding: "12px 24px",
-            borderRadius: "8px",
-            border: "none"
-          }}
-        >
-          Create Agent
-        </button>
+          <h1>
+            Build your own
+            <span> AI Agent</span>
+          </h1>
 
+          <p>
+            Create a focused AI assistant for
+            research, documents, calculations,
+            Q&amp;A, and everyday tasks — all from
+            one simple workspace.
+          </p>
+
+          <button
+            className="primary-button hero-button"
+            onClick={onCreateAgent}
+          >
+            Create an Agent
+            <span aria-hidden="true">
+              →
+            </span>
+          </button>
+
+          <div className="feature-grid">
+            <div className="feature-card">
+              <span className="feature-icon">
+                ✦
+              </span>
+
+              <div>
+                <strong>
+                  Smart routing
+                </strong>
+
+                <span>
+                  We configure the right agent
+                  type for your task.
+                </span>
+              </div>
+            </div>
+
+            <div className="feature-card">
+              <span className="feature-icon">
+                ⌁
+              </span>
+
+              <div>
+                <strong>
+                  Document Q&amp;A
+                </strong>
+
+                <span>
+                  Upload PDFs or text and chat
+                  with your knowledge.
+                </span>
+              </div>
+            </div>
+
+            <div className="feature-card">
+              <span className="feature-icon">
+                ⌘
+              </span>
+
+              <div>
+                <strong>
+                  Useful tools
+                </strong>
+
+                <span>
+                  Give your agent access to
+                  calculations and web search.
+                </span>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
-
     </div>
   );
 }
-
 
 export default Home;

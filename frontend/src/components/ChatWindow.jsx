@@ -1,31 +1,28 @@
 import MessageBubble from "./MessageBubble";
-
+import CatIcon from "./CatIcon";
 
 function ChatWindow({ messages }) {
-
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "12px",
-        padding: "20px",
-        minHeight: "400px",
-        overflowY: "auto",
-        background: "#020617",
-        border: "1px solid #1e293b",
-        borderRadius: "12px"
-      }}
-    >
+    <div className="chat-window">
       {messages.length === 0 ? (
-        <p
-          style={{
-            color: "#94a3b8",
-            textAlign: "center"
-          }}
-        >
-          Start a conversation with your agent.
-        </p>
+        <div className="chat-empty">
+          <div className="chat-empty-icon">
+            <CatIcon size={50} />
+          </div>
+
+          <h3>How can I help?</h3>
+
+          <p>
+            Ask your agent anything. Your
+            conversation will appear here.
+          </p>
+
+          <div className="suggestion-row">
+            <span>Explain a concept</span>
+            <span>Analyze a document</span>
+            <span>Calculate something</span>
+          </div>
+        </div>
       ) : (
         messages.map((message, index) => (
           <MessageBubble
@@ -37,6 +34,5 @@ function ChatWindow({ messages }) {
     </div>
   );
 }
-
 
 export default ChatWindow;

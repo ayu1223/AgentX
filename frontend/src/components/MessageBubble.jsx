@@ -1,31 +1,33 @@
 import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
+import CatIcon from "./CatIcon";
 
 import "katex/dist/katex.min.css";
 
-
 function MessageBubble({ message }) {
-
   const isUser = message.role === "user";
 
   return (
     <div
-      style={{
-        display: "flex",
-        justifyContent: isUser ? "flex-end" : "flex-start"
-      }}
+      className={`message-row ${
+        isUser
+          ? "user-message"
+          : "assistant-message"
+      }`}
     >
+      {!isUser && (
+        <div className="message-avatar">
+          <CatIcon size={27} />
+        </div>
+      )}
+
       <div
-        style={{
-          maxWidth: "80%",
-          padding: "14px 18px",
-          borderRadius: "14px",
-          background: isUser ? "#232629" : "#232629",
-          color: "#f7f8f9",
-          lineHeight: "1.6",
-          overflowX: "auto"
-        }}
+        className={`message-bubble ${
+          isUser
+            ? "user-bubble"
+            : "assistant-bubble"
+        }`}
       >
         {isUser ? (
           message.content
@@ -41,6 +43,5 @@ function MessageBubble({ message }) {
     </div>
   );
 }
-
 
 export default MessageBubble;

@@ -1,34 +1,27 @@
+import CatIcon from "./CatIcon";
+
 function Navbar({ onHome }) {
   return (
-    <nav
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        padding: "16px 32px",
-        borderBottom: "1px solid #e88a25",
-        background: "#020617"
-      }}
-    >
-      <h2
+    <header className="topbar">
+      <button
+        className="brand"
         onClick={onHome}
-        style={{
-          margin: 0,
-          cursor: "pointer"
-        }}
+        aria-label="Go to home"
       >
-        AgentX
-      </h2>
+        <span className="brand-mark">
+          <CatIcon size={28} />
+        </span>
 
-      <span
-        style={{
-          color: "#94a3b8",
-          fontSize: "14px"
-        }}
-      >
-        AI Agent Builder
-      </span>
-    </nav>
+        <span>AskWhat</span>
+      </button>
+
+      <div className="topbar-right">
+        <span className="topbar-label">
+          AI Agent Builder
+        </span>
+    
+      </div>
+    </header>
   );
 }
 

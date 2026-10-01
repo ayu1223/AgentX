@@ -5,30 +5,26 @@ import ChatWindow from "../components/ChatWindow";
 import ChatInput from "../components/ChatInput";
 import FileUpload from "../components/FileUpload";
 import Loading from "../components/Loading";
+import CatIcon from "../components/CatIcon";
 
 import { sendMessage } from "../services/agentService";
 
-
 function AgentChat({ agent, onBack }) {
-
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
 
-
   const handleSend = async (message) => {
-
     setMessages((previous) => [
       ...previous,
       {
         role: "user",
-        content: message
-      }
+        content: message,
+      },
     ]);
 
     setLoading(true);
 
     try {
-
       const result = await sendMessage(
         agent,
         message
@@ -38,116 +34,121 @@ function AgentChat({ agent, onBack }) {
         ...previous,
         {
           role: "assistant",
-          content: result.response
-        }
+          content: result.response,
+        },
       ]);
-
     } catch (error) {
-
       setMessages((previous) => [
         ...previous,
         {
           role: "assistant",
           content:
-            error.message || "Something went wrong."
-        }
+            error.message ||
+            "Something went wrong.",
+        },
       ]);
-
     } finally {
-
       setLoading(false);
-
     }
   };
 
-
   if (!agent) {
     return (
-      <div>
+      <div className="app-shell">
         <Navbar onHome={onBack} />
 
-        <main
-          style={{
-            padding: "50px",
-            textAlign: "center"
-          }}
-        >
-          <p>No agent selected.</p>
+        <main className="empty-state">
+          <div className="empty-icon">
+            <CatIcon size={52} />
+          </div>
 
-          <button onClick={onBack}>
-            Go Home
+          <h2>No agent selected</h2>
+
+          <p>
+            Return to the workspace and create
+            an agent first.
+          </p>
+
+          <button
+            className="primary-button"
+            onClick={onBack}
+          >
+            Go Home →
           </button>
         </main>
       </div>
     );
   }
 
-
   return (
-    <div>
-
+    <div className="app-shell">
       <Navbar onHome={onBack} />
 
-      <main
-        style={{
-          maxWidth: "900px",
-          margin: "0 auto",
-          padding: "40px 24px"
-        }}
-      >
+      <main className="chat-page">
+        <div className="chat-header">
+          <button
+            className="back-button"
+            onClick={onBack}
+          >
+            ← Workspace
+          </button>
 
-        <button
-          onClick={onBack}
-          style={{
-            marginBottom: "20px"
-          }}
-        >
-          ← Back
-        </button>
+          <div className="agent-heading">
+            <div className="agent-avatar">
+              <CatIcon size={42} />
+            </div>
 
+            <div>
+              <div className="agent-title-row">
+                <h1>{agent.name}</h1>
 
-        <h1>{agent.name}</h1>
+                <span className="agent-status">
+                  ONLINE
+                </span>
+              </div>
 
-        <p
-          style={{
-            color: "#94a3b8"
-          }}
-        >
-          Type: {agent.agent_type}
-        </p>
-
+              <p>
+                {agent.agent_type} agent · Ready
+                to help
+              </p>
+            </div>
+          </div>
+        </div>
 
         {agent.agent_type === "rag" && (
-          <div
-            style={{
-              margin: "25px 0"
-            }}
-          >
+          <div className="upload-panel">
+            <div>
+              <strong>
+                Knowledge base
+              </strong>
+
+              <span>
+                Upload a PDF or TXT file to give
+                your agent context.
+              </span>
+            </div>
+
             <FileUpload />
           </div>
         )}
 
+        <section className="chat-card">
+          <ChatWindow
+            messages={messages}
+          />
 
-        <ChatWindow
-          messages={messages}
-        />
+          {loading && (
+            <Loading text="Your agent is thinking..." />
+          )}
 
-
-        {loading && (
-          <Loading text="Agent is thinking..." />
-        )}
-
-
-        <ChatInput
-          onSend={handleSend}
-          disabled={loading}
-        />
-
+          <ChatInput
+            onSend={handleSend}
+            disabled={loading}
+          />
+        </section>
       </main>
-
     </div>
   );
 }
-
 
 export default AgentChat;
