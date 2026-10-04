@@ -8,7 +8,7 @@ app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "https://YOUR-AGENTX-BACKEND.onrender.com"
+        "https://agent-x-cyan.vercel.app"
     ],
     allow_credentials=True,
     allow_methods=["*"],
